@@ -1,0 +1,52 @@
+---
+interface Props {
+  title: string;
+  genre: string;
+  image: string;
+}
+
+const { title, genre, image } = Astro.props;
+---
+
+<div class="anime-card">
+  <img src={image} alt={title} />
+
+  <div class="content">
+    <span>{genre}</span>
+    <h3>{title}</h3>
+  </div>
+</div>
+
+<style>
+.anime-card{
+    background:#18181b;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.anime-card:hover{
+    transform:translateY(-8px);
+}
+
+.anime-card img{
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+}
+
+.content{
+    padding:18px;
+}
+
+.content span{
+    color:#a78bfa;
+    font-size:.9rem;
+}
+
+.content h3{
+    margin-top:8px;
+    color:white;
+}
+</style>

@@ -1,0 +1,89 @@
+---
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Anime", href: "/anime" },
+  { label: "Manga", href: "/manga" },
+  { label: "News", href: "/news" },
+  { label: "Rankings", href: "/rankings" },
+];
+---
+
+<header class="navbar">
+  <div class="container nav-container">
+
+    <a href="/" class="logo">
+      <span>SEN</span>KAI
+    </a>
+
+    <nav>
+      {
+        navItems.map(item => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+
+  </div>
+</header>
+
+<style>
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(11,17,32,.85);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav-container{
+
+    height:75px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+
+    font-size:1.8rem;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.logo span{
+
+    color:var(--primary);
+}
+
+nav{
+
+    display:flex;
+    gap:2rem;
+}
+
+nav a{
+
+    color:var(--muted);
+
+    transition:.25s;
+}
+
+nav a:hover{
+
+    color:white;
+}
+
+@media(max-width:768px){
+
+nav{
+
+display:none;
+
+}
+
+}
+</style>

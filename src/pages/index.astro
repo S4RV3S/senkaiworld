@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnimeCard from "../components/cards/AnimeCard.astro";
+import LatestNews from "../components/home/LatestNews.astro";
+---
+
+
+<BaseLayout title="Senkai">
+
+<section class="hero">
+
+    <span class="badge">
+        🔥 Featured Today
+    </span>
+
+    <h1>
+        Discover Your Next Favorite Anime
+    </h1>
+
+    <p>
+        Anime news, manga recommendations, reviews and rankings —
+        all in one place.
+    </p>
+
+    <div class="buttons">
+        <a href="/anime" class="primary">
+            Explore Anime
+        </a>
+
+        <a href="/manga" class="secondary">
+            Browse Manga
+        </a>
+    </div>
+
+</section>
+
+<section class="container featured">
+
+    <h2>Trending Anime</h2>
+
+    <div class="grid">
+
+
+<AnimeCard
+    title="Solo Leveling"
+    genre="Action"
+    image="/images/anime/solo-leveling.jpg"
+/>
+
+<AnimeCard
+    title="Blue Lock"
+    genre="Sports"
+    image="/images/anime/blue-lock.jpg"
+/>
+
+<AnimeCard
+    title="Dandadan"
+    genre="Comedy"
+    image="/images/anime/dandadan.jpg"
+/>
+
+    </div>
+
+</section>
+<LatestNews />
+</BaseLayout>
