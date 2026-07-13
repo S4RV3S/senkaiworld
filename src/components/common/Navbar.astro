@@ -37,7 +37,7 @@ const links = [
         links.map((link) => (
           <a
             href={link.href}
-            class="font-medium text-slate-300 transition hover:text-white"
+            class="font-medium text-slate-300 no-underline transition hover:text-white"
           >
             {link.name}
           </a>
@@ -58,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !menu) return;
 
   btn.addEventListener("click", () => {
-    menu.classList.toggle("show");
+    menu.classList.toggle("hidden");
+    menu.classList.toggle("flex");
   });
 });
 </script>

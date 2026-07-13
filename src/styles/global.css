@@ -77,11 +77,12 @@ b {
 }
 
 a {
-	color: var(--accent);
+	text-decoration: none;
+	color: inherit;
 }
 
 a:hover {
-	color: var(--accent);
+	color: inherit;
 }
 
 p {
