@@ -1,89 +1,64 @@
 ---
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Anime", href: "/anime" },
-  { label: "Manga", href: "/manga" },
-  { label: "News", href: "/news" },
-  { label: "Rankings", href: "/rankings" },
+const links = [
+  { name: "Home", href: "/" },
+  { name: "Anime", href: "/anime" },
+  { name: "Manga", href: "/manga" },
+  { name: "News", href: "/news" },
+  { name: "Reviews", href: "/reviews" },
+  { name: "Rankings", href: "/rankings" },
 ];
 ---
 
-<header class="navbar">
-  <div class="container nav-container">
+<header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
 
-    <a href="/" class="logo">
-      <span>SEN</span>KAI
-    </a>
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
-    <nav>
+  <a
+  href="/"
+  class="text-3xl font-extrabold tracking-wide no-underline text-white"
+>
+  <span class="text-violet-500">SEN</span>KAI
+</a>
+
+    <button
+      id="menu-btn"
+      class="text-3xl text-white md:hidden"
+      aria-label="Toggle Menu"
+    >
+      ☰
+    </button>
+
+    <nav
+      id="nav-menu"
+     class="absolute left-0 top-[72px] w-full flex-col gap-5 border-b border-slate-800 bg-slate-950 p-6 hidden md:static md:flex md:w-auto md:flex-row md:border-none md:bg-transparent md:p-0"
+    >
+
       {
-        navItems.map(item => (
-          <a href={item.href}>{item.label}</a>
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="font-medium text-slate-300 transition hover:text-white"
+          >
+            {link.name}
+          </a>
         ))
       }
+
     </nav>
 
   </div>
+
 </header>
 
-<style>
-.navbar{
-    position:sticky;
-    top:0;
-    z-index:1000;
+<script is:inline>
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("nav-menu");
 
-    background:rgba(11,17,32,.85);
-    backdrop-filter:blur(14px);
+  if (!btn || !menu) return;
 
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.nav-container{
-
-    height:75px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-
-    font-size:1.8rem;
-    font-weight:800;
-    letter-spacing:1px;
-}
-
-.logo span{
-
-    color:var(--primary);
-}
-
-nav{
-
-    display:flex;
-    gap:2rem;
-}
-
-nav a{
-
-    color:var(--muted);
-
-    transition:.25s;
-}
-
-nav a:hover{
-
-    color:white;
-}
-
-@media(max-width:768px){
-
-nav{
-
-display:none;
-
-}
-
-}
-</style>
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("show");
+  });
+});
+</script>
