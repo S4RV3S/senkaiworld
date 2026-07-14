@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NewsCard from "../../components/cards/NewsCard.astro";
+
+const news = (await getCollection("news"))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout
+  title="Latest Anime News"
+  description="Latest Anime & Manga News from Senkai."
+>
+
+<section class="mx-auto max-w-7xl px-6 py-20">
+
+  <div class="mb-12">
+
+    <p class="font-semibold uppercase tracking-[0.3em] text-violet-400">
+      News
+    </p>
+
+    <h1 class="mt-2 text-5xl font-black text-white">
+      Latest Anime News
+    </h1>
+
+  </div>
+
+  <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+
+    {
+      news.map((article) => (
+        <NewsCard
+          title={article.data.title}
+          excerpt={article.data.excerpt}
+          image={article.data.image}
+          slug={article.id}
+          date={article.data.date}
+        />
+      ))
+    }
+
+  </div>
+
+</section>
+
+</BaseLayout>

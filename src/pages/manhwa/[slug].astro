@@ -1,0 +1,133 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const manhwa = await getCollection("manhwa");
+
+  return manhwa.map((item) => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+
+const { Content } = await render(item);
+
+const related = (await getCollection("anime"))
+  .filter((a) => a.id !== item.id)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={item.data.title}
+  description={item.data.description}
+>
+
+<section class="mx-auto max-w-7xl px-6 py-20">
+
+<div class="grid gap-12 lg:grid-cols-[380px_1fr]">
+
+<img
+src={item.data.image}
+alt={item.data.title}
+class="rounded-3xl w-full"
+/>
+
+<div>
+
+<span class="rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold">
+{item.data.category}
+</span>
+
+<h1 class="mt-6 text-5xl font-black text-white">
+{item.data.title}
+</h1>
+
+<div class="mt-8 grid grid-cols-2 gap-5 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+
+<div>
+<p class="text-slate-400">⭐ Score</p>
+<p class="mt-2 text-2xl font-bold text-white">
+{item.data.score}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400">🎬 Studio</p>
+<p class="mt-2 text-2xl font-bold text-white">
+{item.data.studio}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400">📺 Episodes</p>
+<p class="mt-2 text-2xl font-bold text-white">
+{item.data.episodes}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400">📡 Status</p>
+<p class="mt-2 text-2xl font-bold text-white">
+{item.data.status}
+</p>
+</div>
+
+</div>
+
+<article class="mt-10 max-w-none">
+
+<Content />
+
+</article>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-24">
+
+<h2 class="mb-8 text-3xl font-bold text-white">
+Related Anime
+</h2>
+
+<div class="grid gap-8 md:grid-cols-3">
+
+{
+related.map((a)=>(
+<a
+href={`/anime/${a.id}`}
+class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
+>
+
+<img
+src={a.data.image}
+alt={a.data.title}
+class="aspect-[3/4] w-full object-cover"
+/>
+
+<div class="p-5">
+
+<h3 class="text-xl font-bold text-white">
+{a.data.title}
+</h3>
+
+<p class="mt-2 text-slate-400">
+⭐ {a.data.score}
+</p>
+
+</div>
+
+</a>
+))
+}
+
+</div>
+
+</section>
+
+</BaseLayout>

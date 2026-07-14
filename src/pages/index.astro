@@ -1,42 +1,29 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnimeCard from "../components/cards/AnimeCard.astro";
-import LatestNews from "../components/home/LatestNews.astro";
-import Hero from "../components/home/Hero.astro";
+
+import Hero from "../components/hero/Hero.astro";
+import TrendingAnime from "../components/sections/TrendingAnime.astro";
+import LatestNews from "../components/sections/LatestNews.astro";
+import PopularManhwa from "../components/sections/PopularManhwa.astro";
+import FeaturedReviews from "../components/sections/FeaturedReviews.astro";
+import Newsletter from "../components/sections/Newsletter.astro";
 ---
 
-
-<BaseLayout title="Senkai">
+<BaseLayout
+  title="Senkai"
+  description="Anime • Manhwa • News • Reviews • Rankings"
+>
 
 <Hero />
 
-<section class="container featured">
+<TrendingAnime />
 
-    <h2>Trending Anime</h2>
-
-    <div class="grid">
-
-
-<AnimeCard
-    title="Solo Leveling"
-    genre="Action"
-    image="/images/anime/solo-leveling.jpg"
-/>
-
-<AnimeCard
-    title="Blue Lock"
-    genre="Sports"
-    image="/images/anime/blue-lock.jpg"
-/>
-
-<AnimeCard
-    title="Dandadan"
-    genre="Comedy"
-    image="/images/anime/dandadan.jpg"
-/>
-
-    </div>
-
-</section>
 <LatestNews />
+
+<PopularManhwa />
+
+<FeaturedReviews />
+
+<Newsletter />
+
 </BaseLayout>

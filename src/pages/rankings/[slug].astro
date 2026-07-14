@@ -1,0 +1,85 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const rankings = await getCollection("rankings");
+
+  return rankings.map((ranking) => ({
+    params: { slug: ranking.id },
+    props: { ranking },
+  }));
+}
+
+const { ranking } = Astro.props;
+
+const { Content } = await render(ranking);
+
+const related = (await getCollection("rankings"))
+.filter((r)=>r.id!==ranking.id)
+.slice(0,3);
+---
+
+<BaseLayout
+title={ranking.data.title}
+description={ranking.data.description}
+>
+
+<section class="mx-auto max-w-5xl px-6 py-20">
+
+<img
+src={ranking.data.image}
+alt={ranking.data.title}
+class="mb-8 rounded-3xl"
+/>
+
+<h1 class="text-5xl font-black">
+{ranking.data.title}
+</h1>
+
+<article class="mt-10 max-w-none prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-h3:text-2xl prose-h3:font-semibold prose-p:text-slate-300 prose-li:text-slate-300">
+
+<Content />
+
+</article>
+
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-24">
+
+<h2 class="mb-8 text-3xl font-bold">
+More Rankings
+</h2>
+
+<div class="grid gap-8 md:grid-cols-3">
+
+{
+related.map((r)=>(
+<a
+href={`/rankings/${r.id}`}
+class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
+>
+
+<img
+src={r.data.image}
+alt={r.data.title}
+class="aspect-video w-full object-cover"
+/>
+
+<div class="p-5">
+
+<h3 class="text-xl font-bold">
+{r.data.title}
+</h3>
+
+</div>
+
+</a>
+))
+}
+
+</div>
+
+</section>
+
+</BaseLayout>

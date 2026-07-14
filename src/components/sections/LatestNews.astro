@@ -1,77 +1,53 @@
 ---
-const news = [
-  {
-    title: "Solo Leveling Season 2 officially announced",
-    date: "July 2026",
-  },
-  {
-    title: "Blue Lock movie receives global release",
-    date: "July 2026",
-  },
-  {
-    title: "Top 10 Manga to Read This Month",
-    date: "July 2026",
-  },
-];
+import { getCollection } from "astro:content";
+import NewsCard from "../cards/NewsCard.astro";
+
+const news = (await getCollection("news"))
+.sort((a,b)=>b.data.date.getTime()-a.data.date.getTime())
+.slice(0,6);
 ---
 
-<section class="news-section container">
+<section class="mx-auto max-w-7xl px-6 py-24">
 
-    <h2>Latest News</h2>
+    <div class="mb-12 flex items-center justify-between">
 
-    <div class="news-list">
+        <div>
+
+            <p class="uppercase tracking-[0.3em] text-violet-400 font-semibold">
+                Latest
+            </p>
+
+            <h2 class="mt-2 text-5xl font-black text-white">
+                Latest News
+            </h2>
+
+        </div>
+
+        <a
+            href="/news"
+            class="font-semibold text-violet-400"
+        >
+            View All →
+        </a>
+
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-3">
 
         {
-            news.map(item => (
-                <article class="news-card">
+            news.map(article=>(
+                <NewsCard
 
-                    <small>{item.date}</small>
+                    title={article.data.title}
+                    excerpt={article.data.excerpt}
+                    image={article.data.image}
+                    slug={article.id}
+                    date={article.data.date}
 
-                    <h3>{item.title}</h3>
-
-                </article>
+                />
             ))
         }
 
     </div>
 
 </section>
-
-<style>
-.news-section{
-    padding:80px 20px;
-}
-
-.news-section h2{
-    margin-bottom:30px;
-}
-
-.news-list{
-    display:grid;
-    gap:20px;
-}
-
-.news-card{
-    background:#18181b;
-    border:1px solid #27272a;
-    border-radius:14px;
-    padding:24px;
-    transition:.25s;
-}
-
-.news-card:hover{
-    border-color:#7c3aed;
-    transform:translateY(-4px);
-}
-
-.news-card small{
-    color:#a78bfa;
-}
-
-.news-card h3{
-    font-size:1.75rem;
-    line-height:1.3;
-    color:white;
-    margin:14px 0;
-}
-</style>

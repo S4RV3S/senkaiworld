@@ -1,0 +1,103 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const news = await getCollection("news");
+
+  return news.map((article) => ({
+    params: {
+      slug: article.id,
+    },
+    props: {
+      article,
+    },
+  }));
+}
+
+const { article } = Astro.props;
+
+const { Content } = await render(article);
+
+const related = (await getCollection("news"))
+  .filter((item) => item.id !== article.id)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={article.data.title}
+  description={article.data.description}
+>
+
+<section class="mx-auto max-w-4xl px-6 py-20">
+
+  <span class="rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white">
+    {article.data.category}
+  </span>
+
+  <h1 class="mt-6 text-5xl font-black text-white">
+    {article.data.title}
+  </h1>
+
+  <p class="mt-4 text-slate-400">
+    By {article.data.author} • {article.data.date.toLocaleDateString()}
+  </p>
+
+  <img
+    src={article.data.image}
+    alt={article.data.title}
+    class="mt-10 w-full rounded-3xl"
+  />
+
+  <article class="prose prose-invert mt-10 max-w-none prose-headings:text-white prose-p:text-slate-300 prose-a:text-violet-400">
+
+    <Content />
+
+  </article>
+
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-24">
+
+  <h2 class="mb-8 text-3xl font-bold text-white">
+    Related Articles
+  </h2>
+
+  <div class="grid gap-8 md:grid-cols-3">
+
+    {
+      related.map((item) => (
+
+        <a
+          href={`/news/${item.id}`}
+          class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
+        >
+
+          <img
+            src={item.data.image}
+            alt={item.data.title}
+            class="aspect-video w-full object-cover"
+          />
+
+          <div class="p-5">
+
+            <h3 class="text-lg font-bold text-white">
+              {item.data.title}
+            </h3>
+
+            <p class="mt-3 text-sm text-slate-400">
+              {item.data.excerpt}
+            </p>
+
+          </div>
+
+        </a>
+
+      ))
+    }
+
+  </div>
+
+</section>
+
+</BaseLayout>

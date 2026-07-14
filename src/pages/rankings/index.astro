@@ -1,0 +1,54 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const rankings = await getCollection("rankings");
+---
+
+<BaseLayout
+title="Anime Rankings | Senkai"
+description="Discover the best anime and manhwa rankings."
+>
+
+<section class="mx-auto max-w-7xl px-6 py-20">
+
+<h1 class="mb-10 text-5xl font-black">
+Rankings
+</h1>
+
+<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+{
+rankings.map((ranking)=>(
+<a
+href={`/rankings/${ranking.id}`}
+class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
+>
+
+<img
+src={ranking.data.image}
+alt={ranking.data.title}
+class="aspect-video w-full object-cover"
+/>
+
+<div class="p-5">
+
+<h2 class="text-xl font-bold">
+{ranking.data.title}
+</h2>
+
+<p class="mt-2 text-slate-400">
+{ranking.data.description}
+</p>
+
+</div>
+
+</a>
+))
+}
+
+</div>
+
+</section>
+
+</BaseLayout>

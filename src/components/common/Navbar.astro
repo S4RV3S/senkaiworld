@@ -2,42 +2,33 @@
 const links = [
   { name: "Home", href: "/" },
   { name: "Anime", href: "/anime" },
-  { name: "Manga", href: "/manga" },
+  { name: "Manhwa", href: "/manhwa" },
   { name: "News", href: "/news" },
   { name: "Reviews", href: "/reviews" },
   { name: "Rankings", href: "/rankings" },
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
+<header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur-xl">
 
-  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
-  <a
-  href="/"
-  class="text-3xl font-extrabold tracking-wide no-underline text-white"
->
-  <span class="text-violet-500">SEN</span>KAI
-</a>
-
-    <button
-      id="menu-btn"
-      class="text-3xl text-white md:hidden"
-      aria-label="Toggle Menu"
+    <!-- Logo -->
+    <a
+      href="/"
+      class="text-3xl font-black tracking-wide transition hover:opacity-90"
     >
-      ☰
-    </button>
+      <span class="text-violet-500">SEN</span><span class="text-white">KAI</span>
+    </a>
 
-    <nav
-      id="nav-menu"
-     class="absolute left-0 top-[72px] w-full flex-col gap-5 border-b border-slate-800 bg-slate-950 p-6 hidden md:static md:flex md:w-auto md:flex-row md:border-none md:bg-transparent md:p-0"
-    >
+    <!-- Desktop Navigation -->
+    <nav class="hidden items-center gap-8 md:flex">
 
       {
         links.map((link) => (
           <a
             href={link.href}
-            class="font-medium text-slate-300 no-underline transition hover:text-white"
+            class="text-base font-semibold text-white transition duration-200 hover:text-violet-400"
           >
             {link.name}
           </a>
@@ -46,18 +37,44 @@ const links = [
 
     </nav>
 
+    <!-- Mobile Menu Button -->
+    <button
+      id="menu-btn"
+      class="text-3xl text-white md:hidden"
+      aria-label="Toggle Menu"
+    >
+      ☰
+    </button>
+
   </div>
+
+  <!-- Mobile Navigation -->
+  <nav
+    id="mobile-menu"
+    class="hidden flex-col border-t border-slate-800 bg-slate-950 md:hidden"
+  >
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          class="border-b border-slate-800 px-6 py-4 text-white transition hover:bg-slate-900 hover:text-violet-400"
+        >
+          {link.name}
+        </a>
+      ))
+    }
+  </nav>
 
 </header>
 
 <script is:inline>
 document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("menu-btn");
-  const menu = document.getElementById("nav-menu");
+  const button = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
 
-  if (!btn || !menu) return;
+  if (!button || !menu) return;
 
-  btn.addEventListener("click", () => {
+  button.addEventListener("click", () => {
     menu.classList.toggle("hidden");
     menu.classList.toggle("flex");
   });

@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AnimeCard from "../../components/cards/AnimeCard.astro";
+
+const anime = (await getCollection("anime"))
+  .sort((a, b) => b.data.score - a.data.score);
+---
+
+<BaseLayout
+  title="Anime | Senkai"
+  description="Browse the best anime on Senkai."
+>
+
+<section class="mx-auto max-w-7xl px-6 py-20">
+
+  <div class="mb-12">
+
+    <p class="font-semibold uppercase tracking-[0.3em] text-violet-400">
+      Anime
+    </p>
+
+    <h1 class="mt-2 text-5xl font-black text-white">
+      Explore Anime
+    </h1>
+
+    <p class="mt-4 max-w-2xl text-lg text-slate-400">
+      Discover trending anime, ratings, studios, and recommendations.
+    </p>
+
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+
+    {
+      anime.map((item) => (
+        <AnimeCard
+          title={item.data.title}
+          image={item.data.image}
+          rating={item.data.score}
+          genre={item.data.category}
+          year={item.data.date.getFullYear()}
+          href={`/anime/${item.id}`}
+        />
+      ))
+    }
+
+  </div>
+
+</section>
+
+</BaseLayout>

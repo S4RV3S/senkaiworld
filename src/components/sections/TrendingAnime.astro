@@ -1,0 +1,51 @@
+---
+import { getCollection } from "astro:content";
+import AnimeCard from "../cards/AnimeCard.astro";
+
+const anime = (await getCollection("anime"))
+  .filter((item) => item.data.trending)
+  .sort((a, b) => b.data.score - a.data.score)
+  .slice(0, 3);
+---
+
+<section class="mx-auto max-w-7xl px-6 py-24">
+
+  <div class="mb-12 flex items-center justify-between">
+
+    <div>
+      <p class="font-semibold uppercase tracking-[0.3em] text-violet-400">
+        Trending
+      </p>
+
+      <h2 class="mt-2 text-5xl font-black text-white">
+        Trending Anime
+      </h2>
+    </div>
+
+    <a
+      href="/anime"
+      class="font-semibold text-violet-400 hover:text-violet-300"
+    >
+      View All →
+    </a>
+
+  </div>
+
+  <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+
+    {
+      anime.map((item) => (
+        <AnimeCard
+          title={item.data.title}
+          image={item.data.image}
+          rating={item.data.score}
+          genre={item.data.category}
+          year={item.data.date.getFullYear()}
+          href={`/anime/${item.id}`}
+        />
+      ))
+    }
+
+  </div>
+
+</section>

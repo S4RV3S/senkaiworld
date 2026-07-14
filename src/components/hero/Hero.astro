@@ -1,54 +1,83 @@
-<section class="mx-auto flex min-h-[90vh] max-w-7xl flex-col-reverse items-center justify-between gap-16 px-6 py-16 lg:flex-row lg:py-24">
+<section class="relative overflow-hidden">
 
-  <!-- Left Content -->
-  <div class="max-w-2xl">
+  <div class="absolute inset-0 bg-gradient-to-br from-violet-900/40 via-slate-950 to-black"></div>
 
-    <span class="inline-flex items-center rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-lg">
-      🔥 Featured Today
-    </span>
+  <div class="relative mx-auto max-w-7xl px-6 py-28">
 
-    <h1 class="mt-6 text-5xl font-black leading-tight text-white sm:text-6xl lg:text-7xl">
-      SOLO LEVELING
-    </h1>
+    <div class="grid items-center gap-16 lg:grid-cols-2">
 
-    <h2 class="mt-3 text-2xl font-bold text-violet-400 sm:text-3xl">
-      Arise.
-    </h2>
+      <div>
 
-    <p class="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-      Read the latest anime news, manga recommendations, reviews, rankings,
-      episode guides and everything happening in the anime universe—all in one place.
-    </p>
+        <span class="rounded-full border border-violet-500/40 bg-violet-500/10 px-5 py-2 text-sm font-semibold text-violet-300">
+          🔥 Daily Anime • Manhwa • News
+        </span>
 
-    <div class="mt-10 flex flex-wrap items-center gap-5">
+        <h1 class="mt-8 text-6xl font-black leading-tight text-white lg:text-7xl">
 
-      <a
-        href="/anime"
-        class="rounded-xl bg-violet-600 px-8 py-4 font-semibold text-white no-underline transition duration-300 hover:bg-violet-500 hover:scale-105"
-      >
-        Explore Anime
-      </a>
+          Welcome to
 
-      <a
-        href="/news"
-        class="rounded-xl border border-slate-700 px-8 py-4 font-semibold text-white no-underline transition duration-300 hover:border-violet-500 hover:bg-slate-800 hover:scale-105"
-      >
-        Latest News
-      </a>
+          <span class="text-violet-500">
+            Senkai
+          </span>
+
+        </h1>
+
+        <p class="mt-8 max-w-xl text-xl leading-9 text-slate-300">
+
+          Discover trending Anime, Manhwa, breaking news, rankings,
+          reviews and recommendations in one place.
+
+        </p>
+
+        <div class="mt-12 flex flex-wrap gap-5">
+
+          <a
+            href="/anime"
+            class="rounded-xl bg-violet-600 px-8 py-4 font-bold text-white transition hover:bg-violet-500"
+          >
+            Explore Anime
+          </a>
+
+          <a
+            href="/news"
+            class="rounded-xl border border-slate-700 px-8 py-4 font-bold text-white transition hover:border-violet-500"
+          >
+            Latest News
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+
+        <img
+          src="/images/anime/solo-leveling.jpg"
+          class="rounded-3xl object-cover shadow-2xl"
+          alt="Solo Leveling"
+        />
+
+        <img
+          src="/images/anime/dandadan.jpg"
+          class="mt-12 rounded-3xl object-cover shadow-2xl"
+          alt="Dandadan"
+        />
+
+        <img
+          src="/images/manhwa/tbate.jpg"
+          class="-mt-8 rounded-3xl object-cover shadow-2xl"
+          alt="TBATE"
+        />
+
+        <img
+          src="/images/manhwa/omniscient-reader.jpg"
+          class="rounded-3xl object-cover shadow-2xl"
+          alt="ORV"
+        />
+
+      </div>
 
     </div>
-
-  </div>
-
-  <!-- Right Image -->
-  <div class="w-full max-w-xl">
-
-    <img
-      src="/images/anime/solo-leveling.jpg"
-      alt="Solo Leveling"
-      fetchpriority="high"
-      class="w-full rounded-3xl object-cover shadow-2xl transition duration-500 hover:scale-[1.02]"
-    />
 
   </div>
 

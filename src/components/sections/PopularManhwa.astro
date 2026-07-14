@@ -1,0 +1,84 @@
+---
+const manhwa = [
+  {
+    title: "Solo Leveling",
+    image: "/images/manhwa/solo-leveling.jpg",
+    href: "/manhwa/solo-leveling",
+  },
+  {
+    title: "The Beginning After The End",
+    image: "/images/manhwa/tbate.jpg",
+    href: "/manhwa/tbate",
+  },
+  {
+    title: "Omniscient Reader",
+    image: "/images/manhwa/omniscient-reader.jpg",
+    href: "/manhwa/omniscient-reader",
+  },
+  {
+    title: "Legend of the Northern Blade",
+    image: "/images/manhwa/legend-of-the-northern-blade.jpg",
+    href: "/manhwa/legend-of-the-northern-blade",
+  },
+  {
+    title: "Eleceed",
+    image: "/images/manhwa/eleceed.jpg",
+    href: "/manhwa/eleceed",
+  },
+  {
+    title: "Nano Machine",
+    image: "/images/manhwa/nano-machine.jpg",
+    href: "/manhwa/nano-machine",
+  },
+];
+---
+
+<section class="mx-auto max-w-7xl px-6 py-24">
+
+  <div class="mb-12 flex items-center justify-between">
+
+    <div>
+      <p class="uppercase tracking-[0.3em] font-semibold text-violet-400">
+        POPULAR
+      </p>
+
+      <h2 class="mt-2 text-5xl font-black text-white">
+        Popular Manhwa
+      </h2>
+    </div>
+
+    <a
+      href="/manhwa"
+      class="font-semibold text-violet-400 hover:text-violet-300"
+    >
+      View All →
+    </a>
+
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+    {
+      manhwa.map((item) => (
+        <a
+          href={item.href}
+          class="group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 transition hover:-translate-y-2 hover:border-violet-500"
+        >
+          <img
+            src={item.image}
+            alt={item.title}
+            class="aspect-[3/4] w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-white">
+              {item.title}
+            </h3>
+          </div>
+        </a>
+      ))
+    }
+
+  </div>
+
+</section>
