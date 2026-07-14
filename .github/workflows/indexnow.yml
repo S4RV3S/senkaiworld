@@ -1,0 +1,24 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify Bing IndexNow
+        run: |
+          curl -X POST https://api.indexnow.org/indexnow \
+          -H "Content-Type: application/json; charset=utf-8" \
+          -d '{
+            "host":"senkaiworld.in",
+            "key":"817c3e224f744da784c2a180ff35e92e",
+            "keyLocation":"https://senkaiworld.in/817c3e224f744da784c2a180ff35e92e.txt",
+            "urlList":[
+              "https://senkaiworld.in/"
+            ]
+          }'
