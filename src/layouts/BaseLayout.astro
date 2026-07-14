@@ -10,9 +10,10 @@ interface Props {
 }
 
 const {
-  Senkai World | Anime, Manhwa, Reviews, Rankings & Latest News,
+  title = "Senkai World | Anime, Manhwa, Reviews, Rankings & Latest News",
   description = "Discover trending anime, manga, reviews, rankings and the latest anime news.",
-} = Astro.props;
+} = Astro.props as Props;
+
 ---
 
 <!DOCTYPE html>
