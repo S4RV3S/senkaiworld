@@ -15,9 +15,17 @@ const { item } = Astro.props;
 
 const { Content } = await render(item);
 
-const related = (await getCollection("anime"))
-  .filter((a) => a.id !== item.id)
+const related = (await getCollection("manhwa"))
+  .filter((m) => m.id !== item.id)
   .slice(0, 3);
+
+const meta = [
+  { label: "⭐ Score", value: item.data.score },
+  { label: "📖 Chapters", value: item.data.chapters },
+  { label: "📡 Status", value: item.data.status },
+  { label: "✍️ Author", value: item.data.authorName },
+  { label: "🎨 Artist", value: item.data.artist },
+].filter((m) => m.value !== undefined && m.value !== null && m.value !== "");
 ---
 
 <BaseLayout
@@ -45,37 +53,16 @@ class="rounded-3xl w-full"
 {item.data.title}
 </h1>
 
+{meta.length > 0 && (
 <div class="mt-8 grid grid-cols-2 gap-5 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-
+{meta.map((m) => (
 <div>
-<p class="text-slate-400">⭐ Score</p>
-<p class="mt-2 text-2xl font-bold text-white">
-{item.data.score}
-</p>
+<p class="text-slate-400">{m.label}</p>
+<p class="mt-2 text-2xl font-bold text-white">{m.value}</p>
 </div>
-
-<div>
-<p class="text-slate-400">🎬 Studio</p>
-<p class="mt-2 text-2xl font-bold text-white">
-{item.data.studio}
-</p>
+))}
 </div>
-
-<div>
-<p class="text-slate-400">📺 Episodes</p>
-<p class="mt-2 text-2xl font-bold text-white">
-{item.data.episodes}
-</p>
-</div>
-
-<div>
-<p class="text-slate-400">📡 Status</p>
-<p class="mt-2 text-2xl font-bold text-white">
-{item.data.status}
-</p>
-</div>
-
-</div>
+)}
 
 <article class="mt-10 max-w-none">
 
@@ -92,7 +79,7 @@ class="rounded-3xl w-full"
 <section class="mx-auto max-w-7xl px-6 pb-24">
 
 <h2 class="mb-8 text-3xl font-bold text-white">
-Related Anime
+Related Manhwa
 </h2>
 
 <div class="grid gap-8 md:grid-cols-3">
@@ -100,7 +87,7 @@ Related Anime
 {
 related.map((a)=>(
 <a
-href={`/anime/${a.id}`}
+href={`/manhwa/${a.id}`}
 class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
 >
 
@@ -116,9 +103,11 @@ class="aspect-[3/4] w-full object-cover"
 {a.data.title}
 </h3>
 
+{a.data.score !== undefined && (
 <p class="mt-2 text-slate-400">
 ⭐ {a.data.score}
 </p>
+)}
 
 </div>
 
