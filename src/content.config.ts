@@ -43,11 +43,11 @@ const manhwa = defineCollection({
     base: "./src/content/manhwa",
   }),
   schema: baseSchema.extend({
-    chapters: z.coerce.number(),
-    status: z.string(),
-    score: z.coerce.number(),
-    authorName: z.string(),
-    artist: z.string(),
+    chapters: z.coerce.number().optional(),
+    status: z.string().optional(),
+    score: z.coerce.number().optional(),
+    authorName: z.string().optional(),
+    artist: z.string().optional(),
   }),
 });
 
@@ -61,7 +61,6 @@ const reviews = defineCollection({
   }),
 });
 
-
 const rankings = defineCollection({
   loader: glob({
     pattern: "**/*.md",
@@ -73,7 +72,7 @@ const rankings = defineCollection({
 export const collections = {
   news,
   anime,
- manhwa,
+  manhwa,
   reviews,
   rankings,
 };
