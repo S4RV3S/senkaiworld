@@ -8,7 +8,7 @@ author: "Sarvesh"
 date: "2026-07-15"
 featured: true
 trending: true
-homepage: false
+homepage: true
 draft: false
 tags:
   - "Best Manhwa 2026"
