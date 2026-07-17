@@ -6,6 +6,7 @@ import TrendingAnime from "../components/sections/TrendingAnime.astro";
 import LatestNews from "../components/sections/LatestNews.astro";
 import PopularManhwa from "../components/sections/PopularManhwa.astro";
 import FollowUs from "../components/sections/FollowUs.astro";
+import MGIDWidget from "../components/ads/MGID/Widget.astro";
 
 ---
 
@@ -17,6 +18,10 @@ import FollowUs from "../components/sections/FollowUs.astro";
 <Hero />
 
 <TrendingAnime />
+
+<section class="container mx-auto px-4 my-10">
+  <MGIDWidget placement="homepage" />
+</section>
 
 <LatestNews />
 

@@ -27,7 +27,7 @@ const {
 
 <section class="mx-auto max-w-7xl px-6 py-20">
 
-<div class="grid gap-12 lg:grid-cols-[380px_1fr]">
+<div class="grid gap-12 lg:grid-cols-[380px_minmax(0,1fr)_320px]">
 
 <img
 src={image}
@@ -57,6 +57,12 @@ class="mt-10 max-w-none"
 </article>
 
 </div>
+
+<aside class="hidden lg:block">
+  <div class="sticky top-24">
+    <MGIDWidget placement="sidebar" />
+  </div>
+</aside>
 
 </div>
 
