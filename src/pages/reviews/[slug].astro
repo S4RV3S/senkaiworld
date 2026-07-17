@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
 export async function getStaticPaths() {
   const reviews = await getCollection("reviews");
 
@@ -15,33 +14,21 @@ const { review } = Astro.props;
 const { Content } = await render(review);
 ---
 
-<BaseLayout
-title={review.data.title}
-description={review.data.description}
+<ArticleLayout
+  title={review.data.title}
+  description={review.data.description}
+  image={review.data.image}
+  category={review.data.category ?? "Reviews"}
 >
 
-<section class="mx-auto max-w-5xl px-6 py-20">
+  <p class="mt-2 text-2xl">
+    ⭐ {review.data.score}/10
+  </p>
 
-<img
-src={review.data.image}
-alt={review.data.title}
-class="mb-8 rounded-3xl"
-/>
+  <article class="prose prose-invert mt-10 max-w-none">
 
-<h1 class="text-5xl font-black">
-{review.data.title}
-</h1>
+    <Content />
 
-<p class="mt-4 text-2xl">
-⭐ {review.data.score}/10
-</p>
+  </article>
 
-<article class="prose prose-invert mt-10 max-w-none">
-
-<Content />
-
-</article>
-
-</section>
-
-</BaseLayout>
+</ArticleLayout>

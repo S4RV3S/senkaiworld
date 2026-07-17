@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
 
 export async function getStaticPaths() {
   const rankings = await getCollection("rankings");
@@ -20,66 +20,54 @@ const related = (await getCollection("rankings"))
 .slice(0,3);
 ---
 
-<BaseLayout
-title={ranking.data.title}
-description={ranking.data.description}
+<ArticleLayout
+  title={ranking.data.title}
+  description={ranking.data.description}
+  image={ranking.data.image}
+  category={ranking.data.category}
 >
 
-<section class="mx-auto max-w-5xl px-6 py-20">
+  <article class="mt-10 max-w-none prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-h3:text-2xl prose-h3:font-semibold prose-p:text-slate-300 prose-li:text-slate-300">
 
-<img
-src={ranking.data.image}
-alt={ranking.data.title}
-class="mb-8 rounded-3xl"
-/>
+    <Content />
 
-<h1 class="text-5xl font-black">
-{ranking.data.title}
-</h1>
+  </article>
 
-<article class="mt-10 max-w-none prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-h3:text-2xl prose-h3:font-semibold prose-p:text-slate-300 prose-li:text-slate-300">
+  <section class="mt-20">
 
-<Content />
+    <h2 class="mb-8 text-3xl font-bold">
+      More Rankings
+    </h2>
 
-</article>
+    <div class="grid gap-8 md:grid-cols-3">
 
-</section>
+      {
+        related.map((r) => (
+          <a
+            href={`/rankings/${r.id}`}
+            class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
+          >
 
-<section class="mx-auto max-w-7xl px-6 pb-24">
+            <img
+              src={r.data.image}
+              alt={r.data.title}
+              class="aspect-video w-full object-cover"
+            />
 
-<h2 class="mb-8 text-3xl font-bold">
-More Rankings
-</h2>
+            <div class="p-5">
 
-<div class="grid gap-8 md:grid-cols-3">
+              <h3 class="text-xl font-bold">
+                {r.data.title}
+              </h3>
 
-{
-related.map((r)=>(
-<a
-href={`/rankings/${r.id}`}
-class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition hover:border-violet-500"
->
+            </div>
 
-<img
-src={r.data.image}
-alt={r.data.title}
-class="aspect-video w-full object-cover"
-/>
+          </a>
+        ))
+      }
 
-<div class="p-5">
+    </div>
 
-<h3 class="text-xl font-bold">
-{r.data.title}
-</h3>
+  </section>
 
-</div>
-
-</a>
-))
-}
-
-</div>
-
-</section>
-
-</BaseLayout>
+</ArticleLayout>
