@@ -1,0 +1,19 @@
+---
+import { MGID_WIDGETS } from "./Config";
+
+interface Props {
+  placement: keyof typeof MGID_WIDGETS;
+}
+
+const { placement } = Astro.props;
+const widgetId = MGID_WIDGETS[placement];
+---
+
+<div data-type="_mgwidget" data-widget-id={widgetId}></div>
+
+<script is:inline>
+(function(w,q){
+  w[q]=w[q]||[];
+  w[q].push(["_mgc.load"]);
+})(window,"_mgq");
+</script>

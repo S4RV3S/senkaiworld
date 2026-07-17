@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import MGIDWidget from "../../components/ads/MGID/Widget.astro";
 
 export async function getStaticPaths() {
   const manhwa = await getCollection("manhwa");
@@ -64,15 +65,44 @@ class="rounded-3xl w-full"
 </div>
 )}
 
-<article class="mt-10 max-w-none">
+<MGIDWidget placement="articleTop" />
 
-<Content />
-
+<article
+  id="article-content"
+  class="mt-10 max-w-none"
+>
+  <Content />
 </article>
 
+
+<script is:inline>
+window.addEventListener("load", () => {
+
+  const article = document.getElementById("article-content");
+
+  const paragraphs = article.querySelectorAll("p");
+
+ const ad = document.createElement("div");
+
+ad.innerHTML = `
+<div data-type="_mgwidget" data-widget-id="2055717"></div>
+<script>
+(function(w,q){
+    w[q]=w[q]||[];
+    w[q].push(["_mgc.load"]);
+})(window,"_mgq");
+<\/script>
+`;
+
+paragraphs[1].after(ad);
+
+});
+</script>
+
 </div>
 
 </div>
+
 
 </section>
 
@@ -116,6 +146,11 @@ class="aspect-[3/4] w-full object-cover"
 }
 
 </div>
+
+<div class="mt-12">
+  <MGIDWidget placement="articleBottom" />
+</div>
+
 
 </section>
 
