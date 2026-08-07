@@ -1,0 +1,16 @@
+---
+export const prerender = false;
+
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import PostForm from "../../../components/admin/PostForm.astro";
+import { getSessionUser } from "../../../lib/cms/auth";
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) {
+  return Astro.redirect("/admin/login");
+}
+---
+
+<AdminLayout title="New Post">
+  <PostForm />
+</AdminLayout>

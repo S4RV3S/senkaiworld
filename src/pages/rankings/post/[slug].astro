@@ -1,0 +1,28 @@
+---
+export const prerender = false;
+
+import ArticleLayout from "../../../layouts/ArticleLayout.astro";
+import { getPublishedBySlug } from "../../../lib/cms/posts";
+
+const { slug } = Astro.params;
+const post = slug ? await getPublishedBySlug("rankings", slug) : null;
+
+if (!post) {
+  return new Response("Not found", { status: 404 });
+}
+---
+
+<ArticleLayout
+  title={post.title}
+  description={post.seo_description ?? post.excerpt ?? ""}
+  image={post.thumbnail_url ?? "/images/placeholder.jpg"}
+  category="Rankings"
+>
+
+  <article class="mt-10 max-w-none prose-headings:text-white prose-h2:text-3xl prose-h2:font-bold prose-h3:text-2xl prose-h3:font-semibold prose-p:text-slate-300 prose-li:text-slate-300">
+
+    <Fragment set:html={post.content_html} />
+
+  </article>
+
+</ArticleLayout>

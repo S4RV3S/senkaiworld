@@ -1,0 +1,32 @@
+---
+export const prerender = false;
+
+import ArticleLayout from "../../../layouts/ArticleLayout.astro";
+import { getPublishedBySlug } from "../../../lib/cms/posts";
+
+const { slug } = Astro.params;
+const post = slug ? await getPublishedBySlug("news", slug) : null;
+
+if (!post) {
+  return new Response("Not found", { status: 404 });
+}
+---
+
+<ArticleLayout
+  title={post.title}
+  description={post.seo_description ?? post.excerpt ?? ""}
+  image={post.thumbnail_url ?? "/images/placeholder.jpg"}
+  category="News"
+>
+
+  <p class="text-slate-400">
+    By Senkai Team • {new Date(post.published_at ?? post.created_at).toLocaleDateString()}
+  </p>
+
+  <article class="prose prose-invert mt-10 max-w-none prose-headings:text-white prose-p:text-slate-300 prose-a:text-violet-400">
+
+    <Fragment set:html={post.content_html} />
+
+  </article>
+
+</ArticleLayout>

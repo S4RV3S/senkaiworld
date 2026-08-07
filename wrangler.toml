@@ -1,0 +1,15 @@
+name = "senkaiworld"
+compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "senkai-cms"
+database_id = "7bf39a76-a918-4c51-b634-a39d20d0fa92"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "senkai-images"
+
+[vars]
+R2_PUBLIC_URL = "https://pub-08b92d01882a405c9c0a678ee74e16a0.r2.dev"

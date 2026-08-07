@@ -1,0 +1,6 @@
+# Copy this file to .dev.vars for local development (astro dev --background).
+# .dev.vars is gitignored — never commit real values.
+# D1 and R2 bindings are already emulated locally via wrangler.toml + platformProxy,
+# this file only needs vars that aren't bindings.
+
+R2_PUBLIC_URL=https://pub-xxxxxxxxxxxxxxxx.r2.dev

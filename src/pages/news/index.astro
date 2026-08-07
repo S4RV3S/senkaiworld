@@ -26,7 +26,7 @@ const news = (await getCollection("news"))
 
   </div>
 
-  <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+  <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3" id="postsGrid">
 
     {
       news.map((article) => (
@@ -43,5 +43,51 @@ const news = (await getCollection("news"))
   </div>
 
 </section>
+
+<script>
+  interface PublicPost {
+    slug: string;
+    title: string;
+    excerpt: string;
+    image: string;
+    date: string;
+  }
+
+  function newsCard(post: PublicPost) {
+    const a = document.createElement("article");
+    a.className =
+      "overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 transition duration-300 hover:-translate-y-2 hover:border-violet-500";
+    a.dataset.date = new Date(post.date).toISOString();
+    a.innerHTML = `
+      <img src="${post.image}" alt="${post.title}" class="aspect-video w-full object-cover" loading="lazy" onerror="this.src='/images/placeholder.jpg'" />
+      <div class="space-y-4 p-6">
+        <p class="text-sm text-slate-400">${new Date(post.date).toLocaleDateString()}</p>
+        <h3 class="text-2xl font-bold text-white">${post.title}</h3>
+        <p class="text-slate-400">${post.excerpt}</p>
+        <a href="/news/post/${post.slug}" class="font-semibold text-violet-400 transition hover:text-violet-300">Read Full Article →</a>
+      </div>`;
+    return a;
+  }
+
+  // Re-orders the grid's children (existing static cards + freshly injected
+  // CMS ones) by their data-date attribute so a newly published CMS post
+  // doesn't jump above a more recent Markdown post, or vice versa.
+  function sortGridByDate(grid: HTMLElement) {
+    const cards = Array.from(grid.children) as HTMLElement[];
+    cards.sort((a, b) => new Date(b.dataset.date ?? 0).getTime() - new Date(a.dataset.date ?? 0).getTime());
+    cards.forEach((card) => grid.appendChild(card));
+  }
+
+  fetch("/api/public/posts?category=news")
+    .then((res) => (res.ok ? res.json() : Promise.resolve({ posts: [] })))
+    .then((data) => {
+      const posts = (data as { posts: PublicPost[] }).posts;
+      const grid = document.getElementById("postsGrid");
+      if (!grid || !posts?.length) return;
+      posts.forEach((post) => grid.appendChild(newsCard(post)));
+      sortGridByDate(grid);
+    })
+    .catch(() => {});
+</script>
 
 </BaseLayout>

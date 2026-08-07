@@ -1,0 +1,131 @@
+---
+export const prerender = false;
+
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getSessionUser } from "../../lib/cms/auth";
+import { listAllForAdmin } from "../../lib/cms/posts";
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) {
+  return Astro.redirect("/admin/login");
+}
+
+const posts = await listAllForAdmin();
+---
+
+<AdminLayout title="Dashboard">
+  <header class="flex items-center justify-between border-b border-slate-800 px-8 py-5">
+    <div>
+      <a href="/" class="text-xl font-black tracking-wide">
+        <span class="text-violet-500">SEN</span><span class="text-white">KAI</span>
+        <span class="ml-1 text-sm font-medium text-slate-400">CMS</span>
+      </a>
+      <p class="mt-0.5 text-sm text-slate-400">Logged in as {user.name}</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <a
+        href="/admin/posts/new"
+        class="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500"
+      >
+        + New Post
+      </a>
+      <button
+        id="logoutBtn"
+        class="rounded-lg border border-slate-800 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-slate-700 hover:text-white"
+      >
+        Log out
+      </button>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-8 py-10">
+    {
+      posts.length === 0 ? (
+        <p class="py-20 text-center text-slate-500">No posts yet — click "New Post" to publish your first one.</p>
+      ) : (
+        <div class="overflow-hidden rounded-2xl border border-slate-800">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-slate-800 text-xs uppercase tracking-wider text-slate-500">
+                <th class="px-4 py-3"></th>
+                <th class="px-4 py-3">Title</th>
+                <th class="px-4 py-3">Category</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Author</th>
+                <th class="px-4 py-3"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.map((p) => (
+                <tr class="border-b border-slate-800 last:border-0" data-row-id={p.id}>
+                  <td class="px-4 py-3">
+                    {p.thumbnail_url ? (
+                      <img src={p.thumbnail_url} class="h-11 w-11 rounded-md object-cover" />
+                    ) : (
+                      <div class="h-11 w-11 rounded-md bg-slate-800" />
+                    )}
+                  </td>
+                  <td class="px-4 py-3 font-medium text-white">{p.title}</td>
+                  <td class="px-4 py-3 capitalize text-slate-400">{p.category}</td>
+                  <td class="px-4 py-3">
+                    <span
+                      class={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                        p.status === "published"
+                          ? "bg-green-500/15 text-green-400"
+                          : "bg-slate-700/40 text-slate-400"
+                      }`}
+                    >
+                      {p.status}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3 text-slate-400">{p.author_name}</td>
+                  <td class="px-4 py-3 text-right">
+                    {p.status === "published" && (
+                      <a
+                        href={`/${p.category}/post/${p.slug}`}
+                        target="_blank"
+                        class="mr-4 font-semibold text-slate-400 hover:text-slate-300"
+                      >
+                        View
+                      </a>
+                    )}
+                    <a href={`/admin/posts/${p.id}/edit`} class="font-semibold text-violet-400 hover:text-violet-300">
+                      Edit
+                    </a>
+                    <button
+                      class="delete-btn ml-4 font-semibold text-red-400 hover:text-red-300"
+                      data-id={p.id}
+                      data-title={p.title}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+  </main>
+
+  <script>
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+      await fetch("/api/auth/logout", { method: "POST" });
+      window.location.href = "/admin/login";
+    });
+
+    document.querySelectorAll<HTMLButtonElement>(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const { id, title } = btn.dataset;
+        if (!confirm(`Delete "${title}"? This can't be undone.`)) return;
+        const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
+        if (res.ok) {
+          btn.closest("tr")?.remove();
+        } else {
+          alert("Failed to delete post.");
+        }
+      });
+    });
+  </script>
+</AdminLayout>

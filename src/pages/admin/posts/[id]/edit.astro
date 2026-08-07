@@ -1,0 +1,23 @@
+---
+export const prerender = false;
+
+import AdminLayout from "../../../../layouts/AdminLayout.astro";
+import PostForm from "../../../../components/admin/PostForm.astro";
+import { getSessionUser } from "../../../../lib/cms/auth";
+import { getPostById } from "../../../../lib/cms/posts";
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) {
+  return Astro.redirect("/admin/login");
+}
+
+const { id } = Astro.params;
+const post = id ? await getPostById(id) : null;
+if (!post) {
+  return new Response("Not found", { status: 404 });
+}
+---
+
+<AdminLayout title={`Edit — ${post.title}`}>
+  <PostForm post={post} />
+</AdminLayout>

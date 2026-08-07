@@ -1,0 +1,76 @@
+---
+export const prerender = false;
+
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getSessionUser } from "../../lib/cms/auth";
+
+const existingUser = await getSessionUser(Astro.cookies);
+if (existingUser) {
+  return Astro.redirect("/admin");
+}
+---
+
+<AdminLayout title="Log in">
+  <div class="flex min-h-screen items-center justify-center px-6">
+    <div class="w-full max-w-sm rounded-2xl border border-slate-800 bg-slate-900 p-8">
+      <a href="/" class="text-2xl font-black tracking-wide">
+        <span class="text-violet-500">SEN</span><span class="text-white">KAI</span>
+      </a>
+      <p class="mt-1 mb-8 text-sm text-slate-400">Log in to publish content</p>
+
+      <form id="loginForm" class="space-y-5">
+        <div>
+          <label for="email" class="mb-1.5 block text-sm text-slate-400">Email</label>
+          <input
+            type="email"
+            id="email"
+            required
+            autocomplete="email"
+            class="w-full rounded-lg border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white outline-none focus:border-violet-500"
+          />
+        </div>
+        <div>
+          <label for="password" class="mb-1.5 block text-sm text-slate-400">Password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            autocomplete="current-password"
+            class="w-full rounded-lg border border-slate-800 bg-slate-950 px-3 py-2.5 text-sm text-white outline-none focus:border-violet-500"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full rounded-lg bg-violet-600 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-500"
+        >
+          Log in
+        </button>
+        <p id="errorMsg" class="hidden text-sm text-red-400">Invalid email or password</p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm") as HTMLFormElement;
+    const errorMsg = document.getElementById("errorMsg") as HTMLElement;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add("hidden");
+      const email = (document.getElementById("email") as HTMLInputElement).value;
+      const password = (document.getElementById("password") as HTMLInputElement).value;
+
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (res.ok) {
+        window.location.href = "/admin";
+      } else {
+        errorMsg.classList.remove("hidden");
+      }
+    });
+  </script>
+</AdminLayout>
